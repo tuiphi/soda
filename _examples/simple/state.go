@@ -22,6 +22,8 @@ type State struct {
 	layouts []soda.Layout
 	layout  int
 
+	focused bool
+
 	showSubtitle bool
 }
 
@@ -35,7 +37,7 @@ func (s *State) Destroy() {
 }
 
 func (s *State) Focused() bool {
-	return false
+	return s.focused
 }
 
 func (s *State) SetSize(size soda.Size) tea.Cmd {
@@ -82,6 +84,9 @@ func (s *State) Update(ctx context.Context, msg tea.Msg) tea.Cmd {
 		case key.Matches(msg, s.keyMap.NextLayout):
 			s.layout++
 			return nil
+		case key.Matches(msg, s.keyMap.ToggleFocus):
+			s.focused = !s.focused
+			return nil
 		}
 	}
 
@@ -96,6 +101,8 @@ func (s *State) View() string {
 	fmt.Fprintf(&b, "State #%d", s.n)
 	b.WriteString("\n\n")
 	fmt.Fprintf(&b, "Available size\n%s", s.size)
+	b.WriteString("\n\n")
+	fmt.Fprintf(&b, "Focused: %t\n", s.focused)
 
 	return b.String()
 }

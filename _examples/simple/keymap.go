@@ -25,6 +25,10 @@ func NewKeyMap() KeyMap {
 			key.WithKeys("l"),
 			key.WithHelp("l", "next layout"),
 		),
+		ToggleFocus: key.NewBinding(
+			key.WithKeys("f"),
+			key.WithHelp("f", "toggle focus"),
+		),
 	}
 }
 
@@ -32,20 +36,27 @@ type KeyMap struct {
 	ToggleSubtitle,
 	SendNotification,
 	NextState,
-	NextLayout key.Binding
+	NextLayout,
+	ToggleFocus key.Binding
 }
 
 func (k KeyMap) ShortHelp() []key.Binding {
-	return []key.Binding{
-		k.ToggleSubtitle,
-		k.SendNotification,
-		k.NextState,
-		k.NextLayout,
-	}
+	return []key.Binding{}
 }
 
 func (k KeyMap) FullHelp() [][]key.Binding {
 	return [][]key.Binding{
 		k.ShortHelp(),
+		{
+			k.NextLayout,
+			k.NextLayout,
+		},
+		{
+			k.ToggleFocus,
+			k.ToggleSubtitle,
+		},
+		{
+			k.SendNotification,
+		},
 	}
 }

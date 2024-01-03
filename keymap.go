@@ -22,12 +22,16 @@ type KeyMap struct {
 func (k KeyMap) ShortHelp() []key.Binding {
 	return []key.Binding{
 		k.Back,
+		k.ShowHelp,
 	}
 }
 
 func (k KeyMap) FullHelp() [][]key.Binding {
 	return [][]key.Binding{
 		k.ShortHelp(),
+		{
+			k.Quit,
+		},
 	}
 }
 

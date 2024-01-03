@@ -163,6 +163,11 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		return m, cmd
 	case tea.KeyMsg:
+		// ignore model keys if the state is focused
+		if m.state.Focused() {
+			goto updateState
+		}
+
 		switch {
 		case key.Matches(msg, m.keyMap.Quit):
 			return m, tea.Quit
@@ -207,6 +212,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, m.onError(msg)
 	}
 
+updateState:
 	cmd := m.state.Update(m.ctx, msg)
 	return m, cmd
 }
