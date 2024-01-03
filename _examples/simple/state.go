@@ -6,8 +6,8 @@ import (
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/metafates/soda"
-	"github.com/metafates/soda/title"
+	"github.com/tuiphy/soda"
+	"github.com/tuiphy/soda/title"
 	"strings"
 	"time"
 )

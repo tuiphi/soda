@@ -2,7 +2,7 @@ package main
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/metafates/soda"
+	"github.com/tuiphy/soda"
 	"log"
 )
 

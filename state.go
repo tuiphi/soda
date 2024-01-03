@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/charmbracelet/bubbles/help"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/metafates/soda/title"
+	"github.com/tuiphy/soda/title"
 )
 
 type stateWrapper struct {

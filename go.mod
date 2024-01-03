@@ -1,4 +1,4 @@
-module github.com/metafates/soda
+module github.com/tuiphy/soda
 
 go 1.21.5
 
