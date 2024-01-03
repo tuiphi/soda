@@ -16,7 +16,7 @@ import (
 
 var _ tea.Model = (*Model)(nil)
 
-type notification struct {
+type _Notification struct {
 	Message string
 	Timer   *time.Timer
 }
@@ -44,7 +44,7 @@ type Model struct {
 	help help.Model
 
 	notificationDefaultDuration time.Duration
-	notification                notification
+	notification                _Notification
 
 	layout Layout
 
@@ -174,26 +174,25 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case key.Matches(msg, m.keyMap.Back) && !m.state.Focused():
 			return m, m.back(1)
 		case key.Matches(msg, m.keyMap.ShowHelp):
-			m.help.ShowAll = !m.help.ShowAll
-			cmd := m.setStateSize()
+			cmd := m.toggleHelp()
 			return m, cmd
 		}
-	case notificationMsg:
+	case _NotificationMsg:
 		cmd := m.notify(msg.Message, m.notificationDefaultDuration)
 		return m, cmd
-	case notificationWithDurationMsg:
+	case _NotificationWithDurationMsg:
 		cmd := m.notify(msg.Message, msg.Duration)
 		return m, cmd
-	case notificationTimeoutMsg:
+	case _NotificationTimeoutMsg:
 		m.hideNotification()
 		return m, nil
-	case backMsg:
+	case _BackMsg:
 		return m, m.back(msg.Steps)
-	case backToRootMsg:
+	case _BackToRootMsg:
 		return m, m.back(m.history.Size())
-	case pushStateMsg:
+	case _PushStateMsg:
 		return m, m.pushState(msg.State)
-	case spinnerTickMsg:
+	case _SpinnerTickMsg:
 		if !m.showSpinner {
 			return m, nil
 		}
@@ -202,7 +201,7 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.spinner, cmd = m.spinner.Update(msg)
 
 		return m, func() tea.Msg {
-			return spinnerTickMsg(cmd().(spinner.TickMsg))
+			return _SpinnerTickMsg(cmd().(spinner.TickMsg))
 		}
 	case error:
 		if errors.Is(msg, context.Canceled) {
@@ -215,6 +214,11 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 updateState:
 	cmd := m.state.Update(m.ctx, msg)
 	return m, cmd
+}
+
+func (m *Model) toggleHelp() tea.Cmd {
+	m.help.ShowAll = !m.help.ShowAll
+	return m.setStateSize()
 }
 
 func (m *Model) stateSize() Size {
@@ -290,6 +294,6 @@ func (m *Model) notify(message string, duration time.Duration) tea.Cmd {
 
 	return func() tea.Msg {
 		<-m.notification.Timer.C
-		return notificationTimeoutMsg{}
+		return _NotificationTimeoutMsg{}
 	}
 }

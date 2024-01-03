@@ -6,27 +6,27 @@ import (
 )
 
 type (
-	notificationMsg struct {
+	_NotificationMsg struct {
 		Message string
 	}
 
-	notificationWithDurationMsg struct {
-		notificationMsg
+	_NotificationWithDurationMsg struct {
+		_NotificationMsg
 
 		Duration time.Duration
 	}
 
-	notificationTimeoutMsg struct{}
+	_NotificationTimeoutMsg struct{}
 
-	backMsg struct {
+	_BackMsg struct {
 		Steps int
 	}
 
-	backToRootMsg struct{}
+	_BackToRootMsg struct{}
 
-	pushStateMsg struct {
+	_PushStateMsg struct {
 		State stateWrapper
 	}
 
-	spinnerTickMsg spinner.TickMsg
+	_SpinnerTickMsg spinner.TickMsg
 )

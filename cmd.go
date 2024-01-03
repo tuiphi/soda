@@ -7,7 +7,7 @@ import (
 
 // Back to the previous state
 func Back() tea.Msg {
-	return backMsg{Steps: 1}
+	return _BackMsg{Steps: 1}
 }
 
 // BackN traverses the history N states back
@@ -17,19 +17,19 @@ func BackN(n int) tea.Cmd {
 	}
 
 	return func() tea.Msg {
-		return backMsg{Steps: n}
+		return _BackMsg{Steps: n}
 	}
 }
 
 // BackToRoot traverses to the first (initial) State in the history
 func BackToRoot() tea.Msg {
-	return backToRootMsg{}
+	return _BackToRootMsg{}
 }
 
 // PushState will push a new State
 func PushState(state State) tea.Cmd {
 	return func() tea.Msg {
-		return pushStateMsg{State: stateWrapper{
+		return _PushStateMsg{State: stateWrapper{
 			State:         state,
 			SaveToHistory: true,
 		}}
@@ -39,7 +39,7 @@ func PushState(state State) tea.Cmd {
 // PushTempState will push a new State that won't be saved into history
 func PushTempState(state State) tea.Cmd {
 	return func() tea.Msg {
-		return pushStateMsg{State: stateWrapper{
+		return _PushStateMsg{State: stateWrapper{
 			State:         state,
 			SaveToHistory: false,
 		}}
@@ -49,15 +49,15 @@ func PushTempState(state State) tea.Cmd {
 // Notify sends a notification with the default time.Duration
 func Notify(message string) tea.Cmd {
 	return func() tea.Msg {
-		return notificationMsg{Message: message}
+		return _NotificationMsg{Message: message}
 	}
 }
 
 // NotifyWithDuration sends a notification with the given time.Duration ignoring the default
 func NotifyWithDuration(message string, duration time.Duration) tea.Cmd {
 	return func() tea.Msg {
-		return notificationWithDurationMsg{
-			notificationMsg: notificationMsg{
+		return _NotificationWithDurationMsg{
+			_NotificationMsg: _NotificationMsg{
 				Message: message,
 			},
 			Duration: duration,

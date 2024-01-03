@@ -28,7 +28,7 @@ func New(state State, options ...Option) *Model {
 		keyMap:                      NewKeyMap(),
 		help:                        help.New(),
 		notificationDefaultDuration: time.Second * 3,
-		notification:                notification{},
+		notification:                _Notification{},
 		layout:                      NewLayout(),
 		ctx:                         ctx,
 		ctxCancel:                   ctxCancel,
