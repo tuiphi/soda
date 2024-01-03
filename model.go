@@ -46,6 +46,8 @@ type Model struct {
 	notificationDefaultDuration time.Duration
 	notification                notification
 
+	layout Layout
+
 	ctx       context.Context
 	ctxCancel context.CancelFunc
 }
@@ -61,12 +63,20 @@ func (m *Model) View() string {
 
 	stateSize := m.stateSize()
 
+	var stateLayout Layout
+
+	if layout, override := m.state.Layout(); override {
+		stateLayout = layout
+	} else {
+		stateLayout = m.layout
+	}
+
 	stateView := m.state.View()
 	stateView = lipgloss.Place(
 		stateSize.Width,
 		stateSize.Height,
-		lipgloss.Left,
-		lipgloss.Top,
+		stateLayout.Horizontal,
+		stateLayout.Vertical,
 		stateView,
 	)
 

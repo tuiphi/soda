@@ -19,7 +19,16 @@ type State struct {
 	size   soda.Size
 	keyMap KeyMap
 
+	layouts []soda.Layout
+	layout  int
+
 	showSubtitle bool
+}
+
+func (s *State) Layout() (layout soda.Layout, override bool) {
+	layout = s.layouts[s.layout%len(s.layouts)]
+
+	return layout, true
 }
 
 func (s *State) Destroy() {
@@ -70,6 +79,9 @@ func (s *State) Update(ctx context.Context, msg tea.Msg) tea.Cmd {
 			return soda.NotifyWithDuration(time.Now().Format(time.StampMilli), time.Millisecond*800)
 		case key.Matches(msg, s.keyMap.NextState):
 			return soda.PushState(New(s.n + 1))
+		case key.Matches(msg, s.keyMap.NextLayout):
+			s.layout++
+			return nil
 		}
 	}
 
@@ -81,14 +93,9 @@ func (s *State) View() string {
 
 	b.Grow(200)
 
-	fmt.Fprintf(&b, "Available state size: %s\n", s.size)
-	fmt.Fprintf(&b, "State #%d\n", s.n)
-
-	text := "a very long string "
-	infiniteText := strings.Repeat(text, s.size.Width/len(text)+1)
-
+	fmt.Fprintf(&b, "State #%d", s.n)
 	b.WriteString("\n\n")
-	b.WriteString(infiniteText)
+	fmt.Fprintf(&b, "Available size\n%s", s.size)
 
 	return b.String()
 }

@@ -7,10 +7,13 @@ import (
 )
 
 func run() error {
-	model := soda.New(New(1), soda.WithMinSize(soda.Size{
-		Width:  10,
-		Height: 10,
-	}))
+	model := soda.New(
+		New(1),
+		soda.WithMinSize(soda.Size{
+			Width:  10,
+			Height: 10,
+		}),
+	)
 
 	program := tea.NewProgram(model, tea.WithAltScreen())
 

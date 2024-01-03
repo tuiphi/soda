@@ -31,6 +31,10 @@ type State interface {
 	// Subtitle is shown below the Title
 	Subtitle() string
 
+	// Layout specifies a custom Layout for the state,
+	// that will override the default one if the override is set to true
+	Layout() (layout Layout, override bool)
+
 	// Status is shown right to the Title
 	Status() string
 
