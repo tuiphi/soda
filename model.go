@@ -4,14 +4,15 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/zyedidia/generic/stack"
-	"strings"
-	"time"
 )
 
 var _ tea.Model = (*Model)(nil)
@@ -91,10 +92,11 @@ func (m *Model) View() string {
 }
 
 func (m *Model) viewInvalidSizeBanner() string {
+	size := m.stateSize()
 	banner := lipgloss.JoinVertical(
 		lipgloss.Center,
-		"Terminal size is too small:",
-		fmt.Sprintf("Width = %d Height = %d", m.size.Width, m.size.Height),
+		"State size is too small:",
+		fmt.Sprintf("Width = %d Height = %d", size.Width, size.Height),
 		"",
 		"Needed:",
 		fmt.Sprintf("Width >= %d Height >= %d", m.minSize.Width, m.minSize.Height),
@@ -150,7 +152,9 @@ func (m *Model) viewFooter() string {
 }
 
 func (m *Model) isValidSize() bool {
-	return m.size.Width >= m.minSize.Width && m.size.Height >= m.minSize.Height
+	size := m.stateSize()
+
+	return size.Width >= m.minSize.Width && size.Height >= m.minSize.Height
 }
 
 func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
