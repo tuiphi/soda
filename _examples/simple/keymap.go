@@ -17,6 +17,10 @@ func NewKeyMap() KeyMap {
 			key.WithKeys("n"),
 			key.WithHelp("n", "send notification"),
 		),
+		SendError: key.NewBinding(
+			key.WithKeys("e"),
+			key.WithHelp("e", "send error"),
+		),
 		NextState: key.NewBinding(
 			key.WithKeys("enter"),
 			key.WithHelp("enter", "next state"),
@@ -39,6 +43,7 @@ func NewKeyMap() KeyMap {
 type KeyMap struct {
 	ToggleSubtitle,
 	SendNotification,
+	SendError,
 	NextState,
 	NextLayout,
 	PrevLayout,
@@ -63,6 +68,7 @@ func (k KeyMap) FullHelp() [][]key.Binding {
 		},
 		{
 			k.SendNotification,
+			k.SendError,
 		},
 	}
 }

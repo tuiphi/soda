@@ -19,8 +19,8 @@ func WithForeground(color lipgloss.Color) Option {
 func New(text string, options ...Option) Title {
 	title := Title{
 		Text:       text,
-		Background: lipgloss.Color("#EB5E28"),
-		Foreground: lipgloss.Color("#252422"),
+		Background: lipgloss.Color("62"),
+		Foreground: lipgloss.Color("230"),
 	}
 
 	for _, option := range options {

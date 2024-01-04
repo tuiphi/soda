@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -9,6 +10,7 @@ import (
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/tuiphy/soda"
 	"github.com/tuiphy/soda/title"
 )
@@ -80,6 +82,10 @@ func (s *State) Update(ctx context.Context, msg tea.Msg) tea.Cmd {
 			return nil
 		case key.Matches(msg, s.keyMap.SendNotification):
 			return soda.NotifyWithDuration(time.Now().Format(time.StampMilli), time.Millisecond*800)
+		case key.Matches(msg, s.keyMap.SendError):
+			return func() tea.Msg {
+				return errors.New("error: triggered manually")
+			}
 		case key.Matches(msg, s.keyMap.NextState):
 			return soda.PushState(New(s.n + 1))
 		case key.Matches(msg, s.keyMap.PrevLayout):
@@ -110,7 +116,24 @@ func (s *State) View() string {
 
 	fmt.Fprintf(&b, "State #%d\n\n", s.n)
 	fmt.Fprintf(&b, "Available size\n%s\n\n", s.size)
-	fmt.Fprintf(&b, "Focused: %t\n\n", s.focused)
+
+	b.WriteString("Focused: ")
+
+	if s.focused {
+		b.WriteString(lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#008000")).Render("true"))
+		b.WriteString(" 🔒")
+	} else {
+		b.WriteString(lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#ED4337")).Render("false"))
+		b.WriteString(" 🔓")
+	}
+	b.WriteString("\n")
+
+	b.WriteString(lipgloss.NewStyle().Faint(true).Render(`
+Focused state will ask Model to ignore its KeyMap.
+For example, pass "?" as tea.KeyMsg to the State instead of handling it by the Model (show help)
+`))
+
+	b.WriteString("\n")
 
 	layout, _ := s.Layout()
 	fmt.Fprintf(&b, "Layout\nHorizontal %.2f Vertical %.2f", layout.Horizontal, layout.Vertical)

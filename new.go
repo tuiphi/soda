@@ -2,11 +2,13 @@ package soda
 
 import (
 	"context"
+	"time"
+
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/zyedidia/generic/stack"
-	"time"
 )
 
 func New(state State, options ...Option) *Model {
@@ -20,7 +22,11 @@ func New(state State, options ...Option) *Model {
 		},
 		history: stack.New[stateWrapper](),
 		onError: func(err error) tea.Cmd {
-			return Notify(err.Error())
+			const errorColor = lipgloss.Color("#ED4337")
+
+			style := lipgloss.NewStyle().Bold(true).Foreground(errorColor)
+
+			return Notify(style.Render(err.Error()))
 		},
 		spinner:                     spinner.Model{},
 		showSpinner:                 false,
