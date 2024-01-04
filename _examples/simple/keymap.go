@@ -21,6 +21,10 @@ func NewKeyMap() KeyMap {
 			key.WithKeys("enter"),
 			key.WithHelp("enter", "next state"),
 		),
+		PrevLayout: key.NewBinding(
+			key.WithKeys("L"),
+			key.WithHelp("L", "prev layout"),
+		),
 		NextLayout: key.NewBinding(
 			key.WithKeys("l"),
 			key.WithHelp("l", "next layout"),
@@ -37,6 +41,7 @@ type KeyMap struct {
 	SendNotification,
 	NextState,
 	NextLayout,
+	PrevLayout,
 	ToggleFocus key.Binding
 }
 
@@ -48,8 +53,9 @@ func (k KeyMap) FullHelp() [][]key.Binding {
 	return [][]key.Binding{
 		k.ShortHelp(),
 		{
+			k.PrevLayout,
 			k.NextLayout,
-			k.NextLayout,
+			k.NextState,
 		},
 		{
 			k.ToggleFocus,

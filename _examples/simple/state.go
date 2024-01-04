@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
+
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/tuiphy/soda"
 	"github.com/tuiphy/soda/title"
-	"strings"
-	"time"
 )
 
 var _ soda.State = (*State)(nil)
@@ -43,7 +44,7 @@ func (s *State) Focused() bool {
 func (s *State) SetSize(size soda.Size) tea.Cmd {
 	s.size = size
 	return nil
-	//return soda.NotifyWithDuration("Resized", time.Millisecond*300)
+	// return soda.NotifyWithDuration("Resized", time.Millisecond*300)
 }
 
 func (s *State) Title() title.Title {
@@ -81,8 +82,17 @@ func (s *State) Update(ctx context.Context, msg tea.Msg) tea.Cmd {
 			return soda.NotifyWithDuration(time.Now().Format(time.StampMilli), time.Millisecond*800)
 		case key.Matches(msg, s.keyMap.NextState):
 			return soda.PushState(New(s.n + 1))
+		case key.Matches(msg, s.keyMap.PrevLayout):
+			if s.layout > 0 {
+				s.layout--
+			}
+
+			return nil
 		case key.Matches(msg, s.keyMap.NextLayout):
-			s.layout++
+			if s.layout < len(s.layouts)-1 {
+				s.layout++
+			}
+
 			return nil
 		case key.Matches(msg, s.keyMap.ToggleFocus):
 			s.focused = !s.focused
@@ -98,11 +108,12 @@ func (s *State) View() string {
 
 	b.Grow(200)
 
-	fmt.Fprintf(&b, "State #%d", s.n)
-	b.WriteString("\n\n")
-	fmt.Fprintf(&b, "Available size\n%s", s.size)
-	b.WriteString("\n\n")
-	fmt.Fprintf(&b, "Focused: %t\n", s.focused)
+	fmt.Fprintf(&b, "State #%d\n\n", s.n)
+	fmt.Fprintf(&b, "Available size\n%s\n\n", s.size)
+	fmt.Fprintf(&b, "Focused: %t\n\n", s.focused)
+
+	layout, _ := s.Layout()
+	fmt.Fprintf(&b, "Layout\nHorizontal %.2f Vertical %.2f", layout.Horizontal, layout.Vertical)
 
 	return b.String()
 }
