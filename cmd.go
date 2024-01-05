@@ -1,8 +1,9 @@
 package soda
 
 import (
-	tea "github.com/charmbracelet/bubbletea"
 	"time"
+
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 // Back to the previous state
@@ -62,5 +63,23 @@ func NotifyWithDuration(message string, duration time.Duration) tea.Cmd {
 			},
 			Duration: duration,
 		}
+	}
+}
+
+func SendError(err error) tea.Cmd {
+	return func() tea.Msg {
+		return err
+	}
+}
+
+func Wrap(supplier func() tea.Cmd) tea.Cmd {
+	return func() tea.Msg {
+		cmd := supplier()
+
+		if cmd == nil {
+			return nil
+		}
+
+		return cmd()
 	}
 }

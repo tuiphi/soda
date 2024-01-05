@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/charmbracelet/bubbles/help"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/tuiphy/soda/title"
 )
 
 type stateWrapper struct {
@@ -26,7 +25,7 @@ type State interface {
 	SetSize(size Size) tea.Cmd
 
 	// Title of the State
-	Title() title.Title
+	Title() string
 
 	// Subtitle is shown below the Title
 	Subtitle() string

@@ -12,7 +12,6 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/tuiphy/soda"
-	"github.com/tuiphy/soda/title"
 )
 
 var _ soda.State = (*State)(nil)
@@ -46,11 +45,10 @@ func (s *State) Focused() bool {
 func (s *State) SetSize(size soda.Size) tea.Cmd {
 	s.size = size
 	return nil
-	// return soda.NotifyWithDuration("Resized", time.Millisecond*300)
 }
 
-func (s *State) Title() title.Title {
-	return title.New("Simple")
+func (s *State) Title() string {
+	return "Simple"
 }
 
 func (s *State) Subtitle() string {

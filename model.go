@@ -54,7 +54,7 @@ type Model struct {
 }
 
 func (m *Model) Init() tea.Cmd {
-	return nil
+	return m.state.Init(m.ctx)
 }
 
 func (m *Model) View() string {
@@ -72,7 +72,12 @@ func (m *Model) View() string {
 		stateLayout = m.layout
 	}
 
-	stateView := m.state.View()
+	stateView := lipgloss.
+		NewStyle().
+		MaxWidth(stateSize.Width).
+		MaxHeight(stateSize.Height).
+		Render(m.state.View())
+
 	stateView = lipgloss.Place(
 		stateSize.Width,
 		stateSize.Height,
@@ -118,7 +123,7 @@ func (m *Model) viewHeader() string {
 
 	b.Grow(200)
 
-	title := m.state.Title().Render(lipgloss.NewStyle().MaxWidth(m.size.Width / 2))
+	title := m.styles.Title.MaxWidth(m.size.Width / 2).Render(m.state.Title())
 	b.WriteString(title)
 
 	if status := m.state.Status(); status != "" {

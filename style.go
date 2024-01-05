@@ -4,6 +4,7 @@ import "github.com/charmbracelet/lipgloss"
 
 type Styles struct {
 	Global,
+	Title,
 	Header,
 	Subtitle,
 	Status,
@@ -12,10 +13,16 @@ type Styles struct {
 	Footer lipgloss.Style
 }
 
-func NewStyles() Styles {
+func DefaultStyles() Styles {
 	return Styles{
 		Global: lipgloss.
 			NewStyle().
+			Padding(0, 1),
+		Title: lipgloss.
+			NewStyle().
+			Background(lipgloss.Color("62")).
+			Foreground(lipgloss.Color("230")).
+			Bold(true).
 			Padding(0, 1),
 		Header: lipgloss.
 			NewStyle().

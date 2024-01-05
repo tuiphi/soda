@@ -15,7 +15,7 @@ func New(state State, options ...Option) *Model {
 	ctx, ctxCancel := context.WithCancel(context.Background())
 
 	model := &Model{
-		styles: NewStyles(),
+		styles: DefaultStyles(),
 		state: stateWrapper{
 			State:         state,
 			SaveToHistory: true,
@@ -31,7 +31,7 @@ func New(state State, options ...Option) *Model {
 		spinner:                     spinner.Model{},
 		showSpinner:                 false,
 		size:                        Size{},
-		keyMap:                      NewKeyMap(),
+		keyMap:                      DefaultKeyMap(),
 		help:                        help.New(),
 		notificationDefaultDuration: time.Second * 3,
 		notification:                _Notification{},

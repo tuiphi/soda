@@ -7,7 +7,7 @@ import (
 
 var _ help.KeyMap = (*KeyMap)(nil)
 
-func NewKeyMap() KeyMap {
+func DefaultKeyMap() KeyMap {
 	return KeyMap{
 		Back:     key.NewBinding(key.WithKeys("esc"), key.WithHelp("esc", "back")),
 		Quit:     key.NewBinding(key.WithKeys("ctrl+c"), key.WithHelp("ctrl+c", "quit")),
