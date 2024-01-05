@@ -11,6 +11,7 @@ import (
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/muesli/reflow/wrap"
 	"github.com/tuiphy/soda"
 )
 
@@ -136,5 +137,7 @@ For example, pass "?" as tea.KeyMsg to the State instead of handling it by the M
 	layout, _ := s.Layout()
 	fmt.Fprintf(&b, "Layout\nHorizontal %.2f Vertical %.2f", layout.Horizontal, layout.Vertical)
 
-	return b.String()
+	view := wrap.String(b.String(), s.size.Width)
+
+	return lipgloss.NewStyle().AlignHorizontal(layout.Horizontal).Render(view)
 }
