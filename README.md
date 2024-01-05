@@ -4,6 +4,8 @@ Framework for building TUI apps based on the [bubbletea](https://github.com/char
 
 It automatically handles state management and general layout, so that you can focus on app functionality rather than fighting with TTY 🤕🥊🖥️
 
+![example](https://github.com/tuiphi/soda/assets/62389790/6235c257-efee-4e8a-a7eb-b656f6291729)
+
 ## Install
 
 ```bash
