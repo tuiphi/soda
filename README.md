@@ -16,6 +16,10 @@ go get github.com/tuiphi/soda
 
 Take a look at the [examples folder](./_examples)
 
+## Libraries to use with Soda
+
+- [Cans](https://github.com/tuiphi/cans): Common Soda component-like states such as text inputs, file picker, viewports and so on.
+
 ## Why?
 
 I write TUI apps a lot. And after some trial and error I came up with the structure that suits me the best. I've been copy-pasting it for my projects again and again, so I decided to create a separate package for it so that others can benefit from it too.
