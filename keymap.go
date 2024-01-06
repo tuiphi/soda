@@ -9,14 +9,30 @@ var _ help.KeyMap = (*KeyMap)(nil)
 
 func DefaultKeyMap() KeyMap {
 	return KeyMap{
-		Back:     key.NewBinding(key.WithKeys("esc"), key.WithHelp("esc", "back")),
-		Quit:     key.NewBinding(key.WithKeys("ctrl+c"), key.WithHelp("ctrl+c", "quit")),
-		ShowHelp: key.NewBinding(key.WithKeys("?"), key.WithHelp("?", "help")),
+		Back: key.NewBinding(
+			key.WithKeys("esc"),
+			key.WithHelp("esc", "back"),
+		),
+		ForceQuit: key.NewBinding(
+			key.WithKeys("ctrl+c"),
+			key.WithHelp("ctrl+c", "force quit"),
+		),
+		Quit: key.NewBinding(
+			key.WithKeys("q"),
+			key.WithHelp("q", "quit"),
+		),
+		ShowHelp: key.NewBinding(
+			key.WithKeys("?"),
+			key.WithHelp("?", "help"),
+		),
 	}
 }
 
 type KeyMap struct {
-	Back, Quit, ShowHelp key.Binding
+	Back,
+	ForceQuit,
+	Quit,
+	ShowHelp key.Binding
 }
 
 func (k KeyMap) ShortHelp() []key.Binding {
@@ -31,6 +47,7 @@ func (k KeyMap) FullHelp() [][]key.Binding {
 		k.ShortHelp(),
 		{
 			k.Quit,
+			k.ForceQuit,
 		},
 	}
 }

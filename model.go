@@ -172,7 +172,11 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		return m, cmd
 	case tea.KeyMsg:
-		// ignore model keys if the state is focused
+		if key.Matches(msg, m.keyMap.ForceQuit) {
+			return m, tea.Quit
+		}
+
+		// ignore other model keys if the state is focused
 		if m.state.Focused() {
 			goto updateState
 		}
@@ -222,7 +226,16 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 updateState:
 	cmd := m.state.Update(m.ctx, msg)
+	m.updateKeyMap()
 	return m, cmd
+}
+
+func (m *Model) updateKeyMap() {
+	enabled := !m.state.Focused()
+
+	m.keyMap.Back.SetEnabled(enabled)
+	m.keyMap.Quit.SetEnabled(enabled)
+	m.keyMap.ShowHelp.SetEnabled(enabled)
 }
 
 func (m *Model) toggleHelp() tea.Cmd {
