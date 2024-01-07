@@ -23,6 +23,7 @@ Take a look at the [examples folder](./_examples)
 ## Libraries to use with Soda
 
 - [Cans](https://github.com/tuiphi/cans): Common Soda component-like states such as text inputs, file picker, viewports and so on.
+- [Bubbles](https://github.com/charmbracelet/bubbles): A library of common UI components for Bubble Tea.
 
 ## Why?
 
