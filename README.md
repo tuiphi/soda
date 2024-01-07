@@ -1,8 +1,12 @@
+<img align="left" alt="3d soda bottle" width="350" src="https://github.com/tuiphi/soda/assets/62389790/4ffbceac-b1f8-4c23-8815-a05272027739">
+
 # 🥤 Soda
 
 Framework for building TUI apps based on the [bubbletea](https://github.com/charmbracelet/bubbletea).
 
 It automatically handles state management and general layout, so that you can focus on app functionality rather than fighting with TTY 🤕🥊🖥️
+
+<br>
 
 ![example](https://github.com/tuiphi/soda/assets/62389790/6235c257-efee-4e8a-a7eb-b656f6291729)
 
