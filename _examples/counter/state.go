@@ -2,13 +2,14 @@ package main
 
 import (
 	"context"
+	"strconv"
+
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/lipgloss/table"
 	"github.com/tuiphy/soda"
-	"strconv"
 )
 
 var _ soda.State = (*State)(nil)
@@ -53,6 +54,7 @@ func (s *State) KeyMap() help.KeyMap {
 }
 
 func (s *State) Init(ctx context.Context) tea.Cmd {
+	s.keyMap.Decrement.SetEnabled(false)
 	return nil
 }
 
@@ -60,16 +62,37 @@ func (s *State) Update(ctx context.Context, msg tea.Msg) tea.Cmd {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch {
+		case key.Matches(msg, s.keyMap.Reset):
+			s.setValue(0)
+			return nil
 		case key.Matches(msg, s.keyMap.Increment):
-			s.counter++
+			s.increment()
 			return nil
 		case key.Matches(msg, s.keyMap.Decrement):
-			s.counter--
+			s.decrement()
 			return nil
 		}
 	}
 
 	return nil
+}
+
+func (s *State) increment() {
+	s.setValue(s.counter + 1)
+}
+
+func (s *State) decrement() {
+	s.setValue(s.counter - 1)
+}
+
+func (s *State) setValue(value int64) {
+	s.counter = value
+
+	if s.counter == 0 {
+		s.keyMap.Decrement.SetEnabled(false)
+	} else {
+		s.keyMap.Decrement.SetEnabled(true)
+	}
 }
 
 func (s *State) View() string {

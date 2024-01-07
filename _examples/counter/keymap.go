@@ -9,6 +9,10 @@ var _ help.KeyMap = (*KeyMap)(nil)
 
 func DefaultKeyMap() KeyMap {
 	return KeyMap{
+		Reset: key.NewBinding(
+			key.WithKeys("r"),
+			key.WithHelp("r", "reset"),
+		),
 		Increment: key.NewBinding(
 			key.WithKeys("+"),
 			key.WithHelp("+", "increment"),
@@ -21,11 +25,14 @@ func DefaultKeyMap() KeyMap {
 }
 
 type KeyMap struct {
-	Increment, Decrement key.Binding
+	Increment,
+	Decrement,
+	Reset key.Binding
 }
 
 func (k KeyMap) ShortHelp() []key.Binding {
 	return []key.Binding{
+		k.Reset,
 		k.Increment,
 		k.Decrement,
 	}
