@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/tuiphy/soda"
-	"log"
 )
 
 func run() error {

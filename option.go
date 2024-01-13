@@ -10,6 +10,18 @@ func WithKeyMap(keyMap KeyMap) Option {
 	}
 }
 
+func WithShowHeader(show bool) Option {
+	return func(model *Model) {
+		model.showHeader = show
+	}
+}
+
+func WithShowFooter(show bool) Option {
+	return func(model *Model) {
+		model.showFooter = show
+	}
+}
+
 func WithOnError(onError OnError) Option {
 	return func(model *Model) {
 		model.onError = onError

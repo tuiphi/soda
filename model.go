@@ -51,6 +51,9 @@ type Model struct {
 
 	ctx       context.Context
 	ctxCancel context.CancelFunc
+
+	showFooter,
+	showHeader bool
 }
 
 func (m *Model) Init() tea.Cmd {
@@ -62,38 +65,45 @@ func (m *Model) View() string {
 		return m.viewInvalidSizeBanner()
 	}
 
-	stateSize := m.stateSize()
-
-	var stateLayout Layout
-
-	if layout, override := m.state.Layout(); override {
-		stateLayout = layout
-	} else {
-		stateLayout = m.layout
+	sections := make([]string, 0, 3)
+	for _, section := range []string{
+		m.viewHeader(),
+		m.viewState(),
+		m.viewFooter(),
+	} {
+		if section != "" {
+			sections = append(sections, section)
+		}
 	}
-
-	stateView := lipgloss.
-		NewStyle().
-		MaxWidth(stateSize.Width).
-		MaxHeight(stateSize.Height).
-		Render(m.state.View())
-
-	stateView = lipgloss.Place(
-		stateSize.Width,
-		stateSize.Height,
-		stateLayout.Horizontal,
-		stateLayout.Vertical,
-		stateView,
-	)
 
 	view := lipgloss.JoinVertical(
 		lipgloss.Left,
-		m.viewHeader(),
-		stateView,
-		m.viewFooter(),
+		sections...,
 	)
 
 	return view
+}
+
+func (m *Model) viewState() string {
+	size := m.stateSize()
+
+	layout, override := m.state.Layout()
+	if !override {
+		layout = m.layout
+	}
+
+	style := lipgloss.
+		NewStyle().
+		MaxWidth(size.Width).
+		MaxHeight(size.Height)
+
+	return lipgloss.Place(
+		size.Width,
+		size.Height,
+		layout.Horizontal,
+		layout.Vertical,
+		style.Render(m.state.View()),
+	)
 }
 
 func (m *Model) viewInvalidSizeBanner() string {
@@ -119,6 +129,10 @@ func (m *Model) viewInvalidSizeBanner() string {
 }
 
 func (m *Model) viewHeader() string {
+	if !m.showHeader {
+		return ""
+	}
+
 	var b strings.Builder
 
 	b.Grow(200)
@@ -148,6 +162,10 @@ func (m *Model) viewHeader() string {
 }
 
 func (m *Model) viewFooter() string {
+	if !m.showFooter {
+		return ""
+	}
+
 	keyMap := m.keyMap.with(m.state.KeyMap())
 	helpView := m.help.View(keyMap)
 

@@ -38,6 +38,8 @@ func New(state State, options ...Option) *Model {
 		layout:                      NewLayout(),
 		ctx:                         ctx,
 		ctxCancel:                   ctxCancel,
+		showHeader:                  true,
+		showFooter:                  true,
 	}
 
 	for _, option := range options {
