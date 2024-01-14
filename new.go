@@ -35,7 +35,7 @@ func New(state State, options ...Option) *Model {
 		help:                        help.New(),
 		notificationDefaultDuration: time.Second * 3,
 		notification:                _Notification{},
-		layout:                      NewLayout(),
+		defaultLayout:               NewLayout(),
 		ctx:                         ctx,
 		ctxCancel:                   ctxCancel,
 		showHeader:                  true,

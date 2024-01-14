@@ -51,5 +51,5 @@ type State interface {
 
 	// View renders the State's UI, which is just a string. The view is
 	// rendered after every Update.
-	View() string
+	View(layout Layout) string
 }

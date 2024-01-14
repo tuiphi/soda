@@ -95,7 +95,7 @@ func (s *State) setValue(value int64) {
 	}
 }
 
-func (s *State) View() string {
+func (s *State) View(soda.Layout) string {
 	t := table.
 		New().
 		Border(lipgloss.NormalBorder()).

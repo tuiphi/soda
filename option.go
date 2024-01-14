@@ -46,8 +46,8 @@ func WithMinSize(size Size) Option {
 	}
 }
 
-func WithLayout(layout Layout) Option {
+func WithDefaultLayout(layout Layout) Option {
 	return func(model *Model) {
-		model.layout = layout
+		model.defaultLayout = layout
 	}
 }
