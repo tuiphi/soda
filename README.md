@@ -10,6 +10,9 @@ It automatically handles state management and general layout, so that you can fo
 
 ![example](https://github.com/tuiphi/soda/assets/62389790/6235c257-efee-4e8a-a7eb-b656f6291729)
 
+> [!WARNING] 
+> Work in progress.
+
 ## Install
 
 ```bash
