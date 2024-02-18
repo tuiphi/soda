@@ -213,6 +213,9 @@ func (m *Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			cmd := m.toggleHelp()
 			return m, cmd
 		}
+	case _RedrawMsg:
+		cmd := m.resize(m.size)
+		return m, cmd
 	case _NotificationMsg:
 		cmd := m.notify(msg.Message, m.notificationDefaultDuration)
 		return m, cmd

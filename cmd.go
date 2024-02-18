@@ -83,3 +83,7 @@ func Wrap(supplier func() tea.Cmd) tea.Cmd {
 		return cmd()
 	}
 }
+
+func Redraw() tea.Msg {
+	return _RedrawMsg{}
+}

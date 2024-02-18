@@ -1,8 +1,9 @@
 package soda
 
 import (
-	"github.com/charmbracelet/bubbles/spinner"
 	"time"
+
+	"github.com/charmbracelet/bubbles/spinner"
 )
 
 type (
@@ -29,4 +30,6 @@ type (
 	}
 
 	_SpinnerTickMsg spinner.TickMsg
+
+	_RedrawMsg struct{}
 )
